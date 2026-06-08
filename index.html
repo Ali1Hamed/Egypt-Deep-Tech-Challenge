@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egypt Deep Tech Challenge 2026 Dashboard</title>
+    <meta name="description" content="Analytical dashboard for the Egypt Deep Tech Challenge 2026 competition registration data, covering Graduation Projects (GP) and STEM school tracks.">
+    <link rel="stylesheet" href="index.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon"><img src="DTGE_logo-1@300x.png" alt="DTGE Logo" style="width:100%;height:100%;object-fit:contain;border-radius:12px;"></div>
+                <div class="logo-text">
+                    <h1>Egypt Deep Tech Challenge</h1>
+                    <p>Registration Analytics Dashboard - 2026</p>
+                </div>
+            </div>
+            <div class="header-badge">📊 Egypt Edition 2026</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Center Tabs Navigation -->
+        <div class="tabs-container">
+            <button class="tab-btn active" data-section="overview">General</button>
+            <button class="tab-btn" data-section="gp">Universities</button>
+            <button class="tab-btn" data-section="stem">Schools</button>
+        </div>
+
+        <!-- OVERVIEW (GENERAL) SECTION -->
+        <section id="overview-section" class="dashboard-section active">
+            <!-- Row 1: KPI Cards Grid -->
+            <div class="kpi-grid kpi-grid-3 kpi-compact">
+                <div class="kpi-card">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-value" id="kpi-total-teams">-</div>
+                    <div class="kpi-label">Total Teams Registered</div>
+                </div>
+                <div class="kpi-card accent">
+                    <div class="kpi-icon">🎓</div>
+                    <div class="kpi-value" id="kpi-total-members">-</div>
+                    <div class="kpi-label">Total Participants</div>
+                </div>
+                <div class="kpi-card purple">
+                    <div class="kpi-icon">🧑‍🏫</div>
+                    <div class="kpi-value" id="kpi-total-supervisors">-</div>
+                    <div class="kpi-label">Supervisors</div>
+                </div>
+            </div>
+
+            <!-- Row 2: Small Track Cards & Gender Chart -->
+            <div class="row-2" id="tracks-row">
+                <!-- GP Small Card -->
+                <div class="track-card-small gp">
+                    <div class="track-icon-small">🎓</div>
+                    <div class="track-info-small">
+                        <h3>Graduation Projects Track</h3>
+                        <div class="track-stats-small">
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="gp-card-teams">-</div>
+                                <div class="track-stat-label-small">Teams</div>
+                            </div>
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="gp-card-members">-</div>
+                                <div class="track-stat-label-small">Members</div>
+                            </div>
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="gp-card-unis">-</div>
+                                <div class="track-stat-label-small">Unis</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEM Small Card -->
+                <div class="track-card-small stem">
+                    <div class="track-icon-small">🏫</div>
+                    <div class="track-info-small">
+                        <h3>High Schools Track</h3>
+                        <div class="track-stats-small">
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="stem-card-teams">-</div>
+                                <div class="track-stat-label-small">Teams</div>
+                            </div>
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="stem-card-members">-</div>
+                                <div class="track-stat-label-small">Members</div>
+                            </div>
+                            <div class="track-stat-small">
+                                <div class="track-stat-value-small" id="stem-card-schools">-</div>
+                                <div class="track-stat-label-small">Schools</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gender Chart -->
+                <div class="chart-card" id="gender-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">👫</span>
+                            Gender Distribution
+                        </div>
+                    </div>
+                    <div class="chart-container mini">
+                        <canvas id="chart-gender-dist"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Top Governorates + Top Combined Registrations -->
+            <div class="row-3" style="grid-template-columns: 1fr 1fr;">
+
+                <div class="chart-card" id="governorates-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🗺️</span>
+                            Top Governorates
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="chart-gov-dist"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card" id="combined-registrations-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🏛️</span>
+                            Top Registrations
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="chart-combined-dist"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GRADUATION PROJECTS (GP) SECTION -->
+        <section id="gp-section" class="dashboard-section">
+            <!-- Row 1: KPI Grid -->
+            <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card">
+                    <div class="kpi-icon">🎓</div>
+                    <div class="kpi-value" id="kpi-gp-teams">-</div>
+                    <div class="kpi-label">GP Teams Registered</div>
+                </div>
+                <div class="kpi-card accent">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-value" id="kpi-gp-members">-</div>
+                    <div class="kpi-label">GP Participants</div>
+                </div>
+                <div class="kpi-card purple">
+                    <div class="kpi-icon">🧑‍🏫</div>
+                    <div class="kpi-value" id="kpi-gp-supervisors">-</div>
+                    <div class="kpi-label">GP Supervisors</div>
+                </div>
+                <div class="kpi-card warning">
+                    <div class="kpi-icon">🏆</div>
+                    <div class="kpi-value" id="kpi-gp-top-uni" style="font-size: 1.15rem; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;">-</div>
+                    <div class="kpi-label">Top University</div>
+                </div>
+            </div>
+
+            <!-- Row 2: University Rankings & Departments -->
+            <div class="panel-grid-main-side">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🏛️</span>
+                            Top Universities
+                        </div>
+                    </div>
+                    <div class="ranking-list" id="gp-uni-ranking">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🧬</span>
+                            Student Departments
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-gp-depts"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: GP Gender Distribution -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">
+                        <span class="chart-title-icon">👫</span>
+                        GP Gender Distribution
+                    </div>
+                </div>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="chart-gp-gender"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEM SECTION -->
+        <section id="stem-section" class="dashboard-section">
+            <!-- Row 1: KPI Grid -->
+            <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card">
+                    <div class="kpi-icon">🏫</div>
+                    <div class="kpi-value" id="kpi-stem-teams">-</div>
+                    <div class="kpi-label">STEM Teams Registered</div>
+                </div>
+                <div class="kpi-card accent">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-value" id="kpi-stem-members">-</div>
+                    <div class="kpi-label">STEM Participants</div>
+                </div>
+                <div class="kpi-card purple">
+                    <div class="kpi-icon">🧑‍🏫</div>
+                    <div class="kpi-value" id="kpi-stem-supervisors">-</div>
+                    <div class="kpi-label">STEM Supervisors</div>
+                </div>
+                <div class="kpi-card warning">
+                    <div class="kpi-icon">🏆</div>
+                    <div class="kpi-value" id="kpi-stem-top-school" style="font-size: 1.15rem; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;">-</div>
+                    <div class="kpi-label">Top STEM School</div>
+                </div>
+            </div>
+
+            <!-- Row 2: School Rankings & Governorates -->
+            <div class="panel-grid-main-side">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🏫</span>
+                            Top STEM Schools
+                        </div>
+                    </div>
+                    <div class="ranking-list" id="stem-school-ranking">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <span class="chart-title-icon">🗺️</span>
+                            STEM Governorates
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-stem-govs"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: STEM Gender Distribution -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">
+                        <span class="chart-title-icon">👫</span>
+                        STEM Gender Distribution
+                    </div>
+                </div>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="chart-stem-gender"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>2026 Egypt Deep Tech Challenge Dashboard | Ministry of Communications and Information Technology</p>
+    </footer>
+
+
+    <!-- Inject data first, then run scripts -->
+    <script src="dashboard_data.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
