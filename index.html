@@ -469,7 +469,7 @@
         <section id="stem-section" class="dashboard-section">
             <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
                 <div class="kpi-card">
-                    <div class="kpi-icon">School🏫</div>
+                    <div class="kpi-icon">🏫</div>
                     <div class="kpi-value" id="kpi-stem-teams">-</div>
                     <div class="kpi-label">STEM Teams Registered</div>
                 </div>
@@ -652,20 +652,10 @@
                 document.getElementById('kpi-total-teams').textContent = summary.total_teams.toLocaleString();
                 document.getElementById('kpi-total-members').textContent = summary.total_members.toLocaleString();
 
-                const supervisorSet = new Set();
-                const gpSupervisorSet = new Set();
-                const stemSupervisorSet = new Set();
-                teams.forEach(t => {
-                    if (t.supervisor && t.supervisor.name) {
-                        const name = t.supervisor.name.trim().toLowerCase();
-                        supervisorSet.add(name);
-                        if (t.track === 'GP') gpSupervisorSet.add(name);
-                        if (t.track === 'STEM') stemSupervisorSet.add(name);
-                    }
-                });
-                document.getElementById('kpi-total-supervisors').textContent = supervisorSet.size.toLocaleString();
-                document.getElementById('kpi-gp-supervisors').textContent = gpSupervisorSet.size.toLocaleString();
-                document.getElementById('kpi-stem-supervisors').textContent = stemSupervisorSet.size.toLocaleString();
+                // عرض القيم والأرقام الجديدة التي قمت بطلب تعديلها يدوياً
+                document.getElementById('kpi-total-supervisors').textContent = (237).toLocaleString();
+                document.getElementById('kpi-gp-supervisors').textContent = (161).toLocaleString();
+                document.getElementById('kpi-stem-supervisors').textContent = (76).toLocaleString();
 
                 document.getElementById('gp-card-teams').textContent = summary.gp_teams_count.toLocaleString();
                 document.getElementById('gp-card-members').textContent = summary.gp_members_count.toLocaleString();
